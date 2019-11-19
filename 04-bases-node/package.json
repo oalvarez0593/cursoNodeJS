@@ -1,0 +1,14 @@
+{
+  "name": "04-bases-node",
+  "version": "1.0.0",
+  "description": "Bases de nodeJS, curso Udemy nodeJS de 0 a experto",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Omar Alvarez",
+  "license": "ISC",
+  "dependencies": {
+    "yargs": "^14.2.0"
+  }
+}

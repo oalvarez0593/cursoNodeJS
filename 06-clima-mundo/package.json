@@ -1,0 +1,15 @@
+{
+  "name": "06-clima-mundo",
+  "version": "1.0.0",
+  "description": "Aplicación de consulta de climas en cualquier parte del mundo y obtener posibles estados del clima en los proximos 7 dias de las semana",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Omar Alvarez",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "yargs": "^15.0.1"
+  }
+}

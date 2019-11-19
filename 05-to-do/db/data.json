@@ -1,0 +1,14 @@
+[
+    {
+        "descripcion": "Jugar play",
+        "completado": "true"
+    },
+    {
+        "descripcion": "Comer",
+        "completado": "true"
+    },
+    {
+        "descripcion": "Continuar curso de nodeJS en Udemy",
+        "completado": false
+    }
+]
