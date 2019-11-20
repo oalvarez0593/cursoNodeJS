@@ -71,3 +71,35 @@ Esta libreria es un middleware que le permite tomar las peticiones que viajen en
 ### Para instalar Body-Parser se debe ejecutar npm install body-parser
 
 ### ===============================================================
+
+## Mongoose
+
+Esta libreria es utilizada para conectarse a la base de datos.
+
+### Para instalar mongoose se debe ejecutar npm install mongoose
+
+### ===============================================================
+
+## Mongoose-unique-validator
+
+Es un pluggin el cual agrega validaciones antes de guardar un campo en la base datos.
+
+### Para instalar Mongoose-unique-validator se debe ejecutar npm i mongoose-unique-validator
+
+### ===============================================================
+
+## Bcryptjs
+
+Permite encriptar y desencriptar los passwords o datos que se le pasen.
+
+### Para instalar Bcrypt se debe ejecutar npm i bcryptjs
+
+### ===============================================================
+
+## Underscore
+
+Permite eliminar propiedades de un objeto para no enviarlas en las peticiones
+
+### Para instalar underscore se debe ejecutar npm install underscore
+
+### ===============================================================
