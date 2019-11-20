@@ -4,6 +4,7 @@
   "description": "Desarrollo de API rest sobre un servidor rest en nodejs",
   "main": "app.js",
   "scripts": {
+    "start": "node server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Omar Alvarez",
