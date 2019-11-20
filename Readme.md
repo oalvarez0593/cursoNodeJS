@@ -64,4 +64,10 @@ Para desplegar la app en heroku, se debe configurar el puerto en el archivo del 
 
 ### ===============================================================
 
-prueba
+## Body-Parser
+
+Esta libreria es un middleware que le permite tomar las peticiones que viajen en los parámetros y convertirlas a un objeto json.
+
+### Para instalar Body-Parser se debe ejecutar npm install body-parser
+
+### ===============================================================
