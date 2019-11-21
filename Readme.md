@@ -103,3 +103,11 @@ Permite eliminar propiedades de un objeto para no enviarlas en las peticiones
 ### Para instalar underscore se debe ejecutar npm install underscore
 
 ### ===============================================================
+
+## Mongoose-Paginate
+
+Permite relizar paginación en los resultados buscados
+
+### Para instalar mongoose-paginate se debe ejecutar npm install mongoose-paginate
+
+### ===============================================================

@@ -2,13 +2,22 @@ var mongoose = require('mongoose');
 var app = require('./app');
 
 const portListen = process.env.PORT = process.env.PORT || 3000;
+const ambiente = process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
+let urlDB;
+
+if (process.env.NODE_ENV === 'dev') {
+    urlDB = 'mongodb://localhost:27017/cafe';
+} else {
+    urlDB = 'mongodb+srv://oalvarez:I3lFrPx4xZ5S1wW9@cluster0-twlyn.mongodb.net/cafe';
+}
 
 /* *****************************  	CONEXIÓN A LA BASE DATOS 	******************************** */
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/cafe', {
+mongoose.connect(urlDB, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useCreateIndex: true
 }).then(() => {
     console.log("La conexión a la base de datos cafe se ha realizado correctamente");
     app.listen(portListen, () => {

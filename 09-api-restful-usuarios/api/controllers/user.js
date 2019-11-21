@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const mongoosePaginate = require('mongoose-paginate');
 const User = require('../models/user');
 
 function home(request, response) {
@@ -123,9 +124,73 @@ function updateUser(request, response) {
 
 }
 
+function getUsers(request, response) {
+	let page = 1;
+	let itemsPerPage = 5;
+
+	if (request.params.page) {
+		page = request.params.page;
+	}
+
+	User.paginate({}, { page: page, limit: itemsPerPage, select: '-password', sort: '_id' }, (err, users) => {
+		if (err) return response.status(500).send({
+			status: 500,
+			message: 'Error en el servidor'
+		});
+
+		if (users.docs.length === 0) return response.status(404).send({
+			status: 404,
+			message: 'No se han encontrado usuarios en la búsqueda'
+		});
+
+		let data = {
+			users: users.docs,
+			totalUsersStored: users.total,
+			currentPage: users.page,
+			totalPages: users.pages
+		}
+		response.status(200).send({
+			status: 200,
+			data: data
+		});
+	});
+}
+
+function deleteUser(request, response) {
+	let userId = request.params.id;
+
+	User.find({
+		$or: [
+			{ _id: userId }
+		]
+	}).exec((err, user) => {
+		if (!user || user.length === 0) {
+			return response.status(404).send({
+				status: 404,
+				message: `El usuario con id: ${userId}, no existe en la base de datos`
+			});
+		} else {
+			User.findOneAndDelete({ _id: userId }, (err, userDeleted) => {
+				if (err) return response.status(500).send({
+					status: 500,
+					message: 'Error en el servidor'
+				});
+
+				return response.status(200).send({
+					status: 200,
+					message: `El usuairo con el id: ${userId} ha sido eliminado`,
+					userDeleted: userDeleted
+				});
+			});
+		}
+	});
+}
+
 module.exports = {
 	home,
 	pruebas,
 	createUser,
-	updateUser
+	updateUser,
+	getUsers,
+	deleteUser
 }
