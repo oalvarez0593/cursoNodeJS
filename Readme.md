@@ -111,3 +111,28 @@ Permite relizar paginación en los resultados buscados
 ### Para instalar mongoose-paginate se debe ejecutar npm install mongoose-paginate
 
 ### ===============================================================
+
+## JWT Simple
+
+Libreria para crear JWT para servicios restful
+
+### Para instalar mongoose-paginate se debe ejecutar npm install jwt-simple  PREFERIBLEMENTE USAR ESTA
+
+### ===============================================================
+
+## Jsonwebtoken
+
+Libreria para crear JWT para servicios restful
+
+### Para instalar mongoose-paginate se debe ejecutar npm install jsonwebtoken
+
+### ===============================================================
+
+## Moment
+
+Libreria para trabajar fechas para servicios restful
+
+### Para instalar moment se debe ejecutar npm i moment
+
+### ===============================================================
+
