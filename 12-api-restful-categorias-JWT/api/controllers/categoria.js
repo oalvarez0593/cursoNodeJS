@@ -2,7 +2,6 @@ const bcrypt = require('bcryptjs');
 const mongoosePaginate = require('mongoose-paginate');
 const Categoria = require('../models/categoria');
 const jwt = require('../jwt/jwt');
-var mongoose = require('mongoose');
 
 
 function home(request, response) {
@@ -18,6 +17,7 @@ function createCategoria(request, response) {
     if (categoriaParams.name && categoriaParams.id) {
         categoria.id = categoriaParams.id;
         categoria.name = categoriaParams.name;
+        categoria.user = request.user.id;
 
         Categoria.find({
             $or: [
@@ -30,19 +30,19 @@ function createCategoria(request, response) {
             } else {
                 categoria.save((err, categoriaStored) => {
                     if (err) {
-                        response.status(500).send({
+                        return response.status(500).send({
                             status: 500,
                             message: 'Error en el servidor',
                             sucess: false
                         })
                     }
                     if (categoriaStored) {
-                        response.status(200).send({
+                        return response.status(200).send({
                             status: 200,
                             user: categoriaStored,
                         })
                     } else {
-                        response.status(404).send({
+                        return response.status(404).send({
                             status: 404,
                             message: `No se ha logrado ingresar la categoria ${categoria.name}`
                         })
@@ -52,7 +52,7 @@ function createCategoria(request, response) {
         })
 
     } else {
-        response.status(200).send({
+        return response.status(200).send({
             message: 'Rellena todos los campos necesarios'
         });
     }
@@ -90,6 +90,10 @@ function getCategorias(request, response) {
     });
 }
 
+///////////////////////////////////////////////
+// Para obtener 1 usuario                    //
+///////////////////////////////////////////////
+
 function getCategoria(request, response) {
     let id = request.params.id;
 
@@ -112,6 +116,66 @@ function getCategoria(request, response) {
         })
     });
 }
+
+
+///////////////////////////////////////////////
+// Para obtener 1 usuario por populate       //
+///////////////////////////////////////////////
+
+function getCategoriaPopulate(request, response) {
+    let id = request.params.id;
+
+    Categoria.find({}).populate('user').sort('name').exec((err, categoria) => {
+        if (err) return response.status(500).send({
+            status: 500,
+            message: 'Error en el servidor',
+            er: err
+        });
+
+        if (!categoria || categoria.length === 0) {
+            return response.status(404).send({
+                status: 404,
+                message: `No se encontró ningún registro con el id: ${id}`
+            });
+        }
+
+        response.status(200).send({
+            status: 200,
+            categoria: categoria
+        })
+    });
+}
+
+
+////////////////////////////////////////////////////////////////////////
+// Para obtener resultados que coincidan con lo que yo escribro       //
+////////////////////////////////////////////////////////////////////////
+
+function getCategoriaConsultaMatch(request, response) {
+    let palabra = request.params.palabra;
+    let regex = new RegExp(palabra, 'i');
+
+    Categoria.find({ name: regex }).populate('user').sort('name').exec((err, categoria) => {
+        if (err) return response.status(500).send({
+            status: 500,
+            message: 'Error en el servidor',
+            er: err
+        });
+
+        if (!categoria || categoria.length === 0) {
+            return response.status(404).send({
+                status: 404,
+                message: `No se encontró ningún registro con el nombre: ${regex}`
+            });
+        }
+
+        response.status(200).send({
+            status: 200,
+            categoria: categoria
+        })
+    });
+}
+
 
 ///////////////////////////////////////////////
 // Para actualizar por _id que asiga MongoDB //
@@ -246,6 +310,8 @@ module.exports = {
     createCategoria,
     getCategorias,
     getCategoria,
+    getCategoriaPopulate,
+    getCategoriaConsultaMatch,
     updateCategoria,
     deleteCategoria
 }

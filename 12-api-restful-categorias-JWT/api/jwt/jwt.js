@@ -5,6 +5,7 @@ const secret_word = 'curso_nodeJS_Udemy';
 
 function createToken(user) {
     let payload = {
+        id: user._id,
         name: user.name,
         email: user.email,
         role: user.role,
