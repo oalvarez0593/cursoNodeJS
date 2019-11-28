@@ -13,7 +13,7 @@ function createToken(user) {
         google: user.google,
         img: user.img,
         iat: moment().unix(),
-        exp: moment().add(30, 'days').unix()
+        exp: moment().add(1, 'days').unix()
     }
 
     return jwt.encode(payload, secret_word);

@@ -219,9 +219,8 @@ function loginUser(request, response) {
 	});
 }
 
-function uploadImage(request, response) {
+async function uploadImage(request, response) {
 	var userId = request.params.id;
-
 
 	if (request.files) {
 		var file_path = request.files.img.path;
@@ -241,6 +240,8 @@ function uploadImage(request, response) {
 		}
 
 		if (file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg' || file_ext == 'gif') {
+			await validateIfUserHaveImage(userId, response);
+
 			User.findByIdAndUpdate(userId, { img: file_name }, { new: true }, (err, userUpdated) => {
 				if (err) return response.status(500).send({ message: 'Error en la petición' });
 				if (!userUpdated) return response.status(404).send({ message: 'No se ha podido actualizar la imagen' });
@@ -256,13 +257,33 @@ function uploadImage(request, response) {
 }
 
 function removeFilesOfUploads(response, file_path, message) {
-
 	fs.unlink(file_path, (err) => {
 		if (err) return response.status(200).send({ message: message });
 
 		return response.status(200).send({
 			message: message
 		});
+	});
+}
+
+function validateIfUserHaveImage(id, response) {
+	User.findById({ _id: id }).exec((err, userDB) => {
+		if (err) {
+			return response.status(500).send({
+				status: 500,
+				message: `Error en el servidor`
+			});
+		}
+		if (!userDB) {
+			return response.status(404).send({
+				status: 404,
+				message: `El usuario con id: ${id}, no se encuentra en la base de datos`
+			});
+		}
+		const path_image = `./upload/users/${userDB.img}`;
+		if (fs.existsSync(path_image)) {
+			fs.unlinkSync(path_image)
+		}
 	});
 }
 
