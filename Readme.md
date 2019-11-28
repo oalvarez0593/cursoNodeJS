@@ -136,3 +136,10 @@ Libreria para trabajar fechas para servicios restful
 
 ### ===============================================================
 
+## Connect-multiparty
+
+Middleware para subir archivos
+
+### Para instalar connect-multiparty se debe ejecutar npm i connect-multiparty
+
+### ===============================================================

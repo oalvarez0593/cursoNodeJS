@@ -1,5 +1,7 @@
 const bcrypt = require('bcryptjs');
 const mongoosePaginate = require('mongoose-paginate');
+var fs = require('fs');
+var path = require('path');
 const User = require('../models/user');
 const jwt = require('../jwt/jwt');
 
@@ -217,6 +219,67 @@ function loginUser(request, response) {
 	});
 }
 
+function uploadImage(request, response) {
+	var userId = request.params.id;
+
+
+	if (request.files) {
+		var file_path = request.files.img.path;
+		/* console.log(file_path); */
+		var file_split = file_path.split('\\');
+		/* console.log(file_split); */
+		var file_name = file_split[2];
+		/* console.log(file_name); */
+		var ext_split = file_name.split('\.');
+		/* console.log(ext_split); */
+		var file_ext = ext_split[1];
+		/* console.log(file_ext); */
+
+		if (userId != request.user.id) {
+
+			return removeFilesOfUploads(response, file_path, 'No tienes permisos para actualizar los datos del usuario');
+		}
+
+		if (file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg' || file_ext == 'gif') {
+			User.findByIdAndUpdate(userId, { img: file_name }, { new: true }, (err, userUpdated) => {
+				if (err) return response.status(500).send({ message: 'Error en la petición' });
+				if (!userUpdated) return response.status(404).send({ message: 'No se ha podido actualizar la imagen' });
+
+				return response.status(200).send({ user: userUpdated });
+			});
+		} else {
+			return removeFilesOfUploads(response, file_path, 'Extensión no válida');
+		}
+	} else {
+		return response.status(200).send({ message: 'No se han subido imágenes.' });
+	}
+}
+
+function removeFilesOfUploads(response, file_path, message) {
+
+	fs.unlink(file_path, (err) => {
+		if (err) return response.status(200).send({ message: message });
+
+		return response.status(200).send({
+			message: message
+		});
+	});
+}
+
+function getImageFile(request, response) {
+	var image_file = request.params.imageFile;
+	var path_file = './upload/users/' + image_file;
+
+	fs.exists(path_file, (exists) => {
+		if (exists) {
+			return response.sendFile(path.resolve(path_file));
+		} else {
+			return response.status(200).send({ message: 'No existe la imagen' });
+		}
+	});
+
+}
+
 module.exports = {
 	home,
 	pruebas,
@@ -224,5 +287,7 @@ module.exports = {
 	updateUser,
 	getUsers,
 	deleteUser,
-	loginUser
+	loginUser,
+	uploadImage,
+	getImageFile
 }
