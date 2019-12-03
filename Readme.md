@@ -151,3 +151,11 @@ Sockets permite una comunicaci√≥n bi-direcional basada en eventos de comunicaci√
 ### Para instalar connect-multiparty se debe ejecutar npm install socket.io
 
 ### ===============================================================
+
+## MySQL
+
+Esta libreria permite instalar lo necesario para poder conectar en nodeJS a una base datos MySQL 
+
+### Para instalar connect-multiparty se debe ejecutar npm install mysql
+
+### ===============================================================
