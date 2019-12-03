@@ -143,3 +143,11 @@ Middleware para subir archivos
 ### Para instalar connect-multiparty se debe ejecutar npm i connect-multiparty
 
 ### ===============================================================
+
+## Socket.io
+
+Sockets permite una comunicación bi-direcional basada en eventos de comunicación.
+
+### Para instalar connect-multiparty se debe ejecutar npm install socket.io
+
+### ===============================================================
