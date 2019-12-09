@@ -159,3 +159,11 @@ Esta libreria permite instalar lo necesario para poder conectar en nodeJS a una 
 ### Para instalar connect-multiparty se debe ejecutar npm install mysql
 
 ### ===============================================================
+
+## Strong-soap
+
+Esta libreria permite consumir Web Services .WSDL.
+
+### Para instalar Strong-soap se debe ejecutar npm install strong-soap
+
+### ===============================================================
