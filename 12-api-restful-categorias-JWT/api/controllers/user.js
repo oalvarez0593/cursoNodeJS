@@ -143,7 +143,7 @@ function getUsers(request, response) {
 
 		if (users.docs.length === 0) return response.status(404).send({
 			status: 404,
-			message: 'No se han encontrado usuarios en la búsqueda'
+			message: 'No se han encontrado registros en ésta página'
 		});
 
 		let data = {

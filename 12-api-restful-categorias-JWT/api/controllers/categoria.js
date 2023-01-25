@@ -12,7 +12,7 @@ function home(request, response) {
 
 function createCategoria(request, response) {
     let categoriaParams = request.body;
-
+console.log(request.user);
     let categoria = new Categoria();
     if (categoriaParams.name && categoriaParams.id) {
         categoria.id = categoriaParams.id;
@@ -125,7 +125,8 @@ function getCategoria(request, response) {
 function getCategoriaPopulate(request, response) {
     let id = request.params.id;
 
-    Categoria.find({}).populate('user').sort('name').exec((err, categoria) => {
+    Categoria.find({id: id}).populate('user').sort('name').exec((err, categoria) => {
+        console.log(categoria);
         if (err) return response.status(500).send({
             status: 500,
             message: 'Error en el servidor',

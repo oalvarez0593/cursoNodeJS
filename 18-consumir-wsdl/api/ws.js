@@ -1,11 +1,15 @@
 const soap = require('soap');
 const express = require('express')
 const app = express();
+const bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-app.get('/suma', (request, response) => {
+app.post('/suma', (request, response) => {
+
     var url = 'http://www.dneonline.com/calculator.asmx?wsdl';
     const url2 = 'http://ws.cdyne.com/NotifyWS/phonenotify.asmx?wsdl'
-    const args = { intA: 2, intB: 2 };
+    const args = { intA: request.body.intA, intB: request.body.intB };
     soap.createClient(url, (err, client) => {
         if (err) {
             return response.status(500).send({
@@ -14,6 +18,12 @@ app.get('/suma', (request, response) => {
             });
         }
         client.Calculator.CalculatorSoap.Add(args, (err, resultSuma) => {
+            if(err) {
+                return response.status(500).send({
+                    status: 500,
+                    message: 'Error en la petición del servidor'
+                });
+            }
             return response.status(200).send({
                 status: 200,
                 ResultadoSuma: resultSuma.AddResult
@@ -42,4 +52,8 @@ app.get('/division', (request, response) => {
         });
     });
 })
+
+app.post('/', (request, response) => {
+    console.log(request.params.id);
+});
 app.listen(3000);
